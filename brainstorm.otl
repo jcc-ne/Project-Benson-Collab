@@ -1,0 +1,33 @@
+Teamname
+	fantastic four
+What can the the data show?
+	Heatmap of on and off
+	Is there a station not very unbalanced entries and exits
+	weekends and weekdays, commuter data
+	influx and outflux
+Research on deliverables
+	potential audience
+		Government
+			grants
+			RFP
+		Dev
+			existing community
+			contracts
+		Transportation
+			existing service
+			field competitors
+	Things related
+		Commuter Map
+			img: img/commuter_map.png
+		NYC has commuter benefits starting 2016-01-01 (!)
+			open _exe_ open http://www.transitchek.com/transitchek-commuter-benefits-save
+		NJ to NYC commuter bus
+			open _exe_ open http://www.academybus.com/Commuters/Commuters.aspx
+			info
+				monthly driving $753.76
+				monthly pass $365
+				every 10mins
+How we collaborate
+	git
+	slack
+TASKS
