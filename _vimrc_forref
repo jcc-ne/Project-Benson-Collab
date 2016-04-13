@@ -1,0 +1,663 @@
+set nocompatible
+syn on
+set autochdir
+if $TERM == "xterm-256color" || $TERM == "screen-256color" || $COLORTERM == "gnome-terminal"
+      set t_Co=256
+endif
+" fix screen problem
+set term=screen-256color
+
+" --- ipad settings ---
+" set guifont=Courier:h20
+" set antialias
+" set background=dark
+" colorscheme torte
+" colorscheme solarized
+" inoremap \ \
+" inoremap ` <esc>
+" vnoremap ` <esc>
+" call IMAP('kj', "\<Esc>", '')  " on ipad
+" --- ipad settings (end) ---
+" unmap
+
+mapclear
+let mapleader = ","
+inoremap kj <esc>
+vnoremap kj <esc>
+nnoremap <tab><tab> <c-w>w
+
+" quick repeat, qq to start
+nnoremap <leader>. @q
+
+" colorscheme default
+" set background
+ if has ('gui_running')
+     set background=light
+     colorscheme solarized
+     call togglebg#map("<leader>t")
+     set lines=70
+     set columns=120
+     winpos 930 0
+ else
+     colorscheme solarized
+"      colorscheme gruvbox
+"      set background=dark
+    set background=light
+ endif
+
+" set background to dark after 18"
+if strftime("%H") < 18 && strftime("%H") > 7
+   set background=light
+"    echo strftime("%H")
+else
+   set background=dark
+endif
+
+" toggle backgroud
+ call togglebg#map("<leader>t")
+
+" toggle spell
+set spell spelllang=en_us
+
+" hi SpellBad cterm=underline ctermfg=black ctermbg=219
+nnoremap <leader><leader>s :set spell!<CR>
+nnoremap <leader>p :set paste!<CR>
+" start with no spell
+set nospell
+
+" highlight search
+set hlsearch
+"hi Search cterm=NONE ctermfg=white ctermbg=darkYellow
+"hi Search cterm=NONE ctermfg=black ctermbg=cyan
+hi Search cterm=NONE ctermfg=black ctermbg=darkYellow
+
+" Press to turn off highlighting and clear any message already
+" displayed.
+nnoremap <silent> <leader>h :nohlsearch<Bar>:echo<CR>
+" map space to jump to end of the line
+nnoremap <space> $
+vnoremap <space> $
+
+"set backspace
+set backspace=indent
+
+" ====  set pymode ====
+filetype off
+" call pathogen#infect()
+" call pathogen#helptags()
+filetype plugin indent on
+syntax on
+nmap <F6> :setf python<cr>
+
+" <leader>, list functions
+" <leager>g go to definition
+au FileType python set omnifunc=pythoncomplete#Complete
+let g:SuperTabDefaultCompletionType = "context"
+
+let g:pymode_folding = 1
+
+" Load rope plugin
+let g:pymode_rope = 0
+
+" Documentation
+let g:pymode_doc = 1
+let g:pymode_doc_key = 'K'
+
+" Map keys for autocompletion
+let g:pymode_rope_autocomplete_map = '<C-K>'
+
+" Auto create and open ropeproject
+let g:pymode_rope_auto_project = 1
+
+" Enable autoimport
+let g:pymode_rope_enable_autoimport = 1
+
+" Auto generate global cache
+let g:pymode_rope_autoimport_generate = 1
+
+let g:pymode_rope_autoimport_underlineds = 0
+
+let g:pymode_rope_codeassist_maxfixes = 10
+
+let g:pymode_rope_sorted_completions = 1
+
+let g:pymode_rope_extended_complete = 1
+
+let g:pymode_rope_autoimport_modules = ["os","shutil","datetime"]
+
+let g:pymode_rope_confirm_saving = 1
+
+let g:pymode_rope_global_prefix = "<C-x>p"
+
+let g:pymode_rope_local_prefix = "<C-c>r"
+
+let g:pymode_rope_vim_completion = 1
+
+let g:pymode_rope_guess_project = 1
+
+let g:pymode_rope_goto_def_newwin = "<leader><leader>g"
+
+let g:pymode_rope_always_show_complete_menu = 0
+
+let g:pymode_run = 1
+
+" Key for run python code
+let g:pymode_run_key = 'R'
+
+"Linting
+let g:pymode_lint = 1
+let g:pymode_lint_checker = "pyflakes, pep8"
+" Auto check on save
+let g:pymode_lint_write = 1
+
+" syntax highlighting
+let g:pymode_syntax = 1
+let g:pymode_syntax_all = 1
+let g:pymode_syntax_indent_errors = g:pymode_syntax_all
+let g:pymode_syntax_space_errors = g:pymode_syntax_all
+
+"-----------------set jedi-------------------
+
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
+let g:jedi#show_call_signatures = "1"
+
+" ----------Latex-Suitesetup--------------------------------------------
+set tabstop=4
+syntax on
+set ruler
+" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
+autocmd FileType tex set backspace=start,indent
+
+" IMPORTANT: win32 users will need to have 'shellslash' set so that latex
+" can be called correctly.
+set shellslash
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type.
+filetype indent on
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+
+" this is mostly a matter of taste. but LaTeX looks good with just a bit
+" " of indentation.
+augroup texTabs
+    autocmd FileType tex set sw=3
+    autocmd FileType tex set softtabstop=3
+    autocmd FileType tex set tabstop=3
+"     autocmd FileType tex imap <CR> <C-j>
+augroup End
+" " TIP: if you write your \label's as \label{fig:something}, then if you
+" " type in \ref{fig: and press <C-n> you will automatically cycle through
+" " all the figure labels. Very useful!
+ set iskeyword+=:
+
+ let g:Tex_MultipleCompileFormat = 'pdf,aux'
+ let g:Tex_TreatMacViewerAsUNIX = 0
+ let g:Tex_DefaultTargetFormat = 'pdf'
+ let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 --interaction=errorstopmode $*'
+ let g:Tex_ViewRule_pdf = 'Skim'
+
+ " Command-R will write, compile, and forward
+ " search--thanks to
+ "     "
+ "     http://reference-man.blogspot.com/2011/09/fully-integrated-latex-in-macvim.html
+ "         " preview, switch back to main window
+ map <D-r> :w<cr><leader>ll<leader>ls
+ imap <D-r> <ESC><D-r>
+let g:Tex_IgnoreLevel = 5
+let g:Tex_IgnoredWarnings ='
+          \"Underfull\n".
+          \"Overfull\n".
+          \"specifier changed to\n".
+          \"You have requested\n".
+          \"Missing number, treated as zero.\n".
+          \"There were undefined references\n".
+          \"Citation %.%# undefined\n".
+          \"Marginpar on page %.%# moved\n".
+          \"\oval, \circle, or \line size unavailable\n"'
+
+let g:Tex_GotoError = 1
+
+" custom setup
+autocmd FileType tex call IMAP('MBF', '\mathbf{}', 'tex')
+autocmd FileType tex call IMAP('MBB', '\varmathbb{}', 'tex')
+
+
+" --- pathogen setup
+" execute pathogen#infect()
+
+" --- vundle setup
+set rtp+=~/.vim/bundle/vundle/
+set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#rc()
+ Bundle 'myBundle'
+ Bundle 'gmarik/vundle'
+ Bundle 'git://github.com/davidhalter/jedi-vim'
+ Bundle 'tpope/vim-fugitive'
+ Bundle 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+ Bundle 'scrooloose/nerdtree'
+ Bundle 'klen/python-mode'
+ Bundle 'christoomey/vim-tmux-navigator'
+ " Bundle 'terryma/vim-multiple-cursors'
+ Bundle 'git://git.code.sf.net/p/vim-latex/vim-latex'
+ Bundle 'altercation/vim-colors-solarized'
+ Bundle 'morhetz/gruvbox'
+ " Bundle 'Lokaltog/vim-easymotion'
+ Bundle 'tpope/vim-surround'
+ Bundle 'vim-scripts/YankRing.vim'
+ Bundle 'vimwiki/vimwiki'
+ Bundle 'mattn/calendar-vim'
+ Bundle 'vimoutliner/vimoutliner'
+ Bundle 'michaeljsmith/vim-indent-object'
+ Bundle "skammer/vim-css-color"
+ " Bundle "wannesm/wmgraphviz.vim"
+ " Bundle "vim-voom/VOoM"
+Bundle "davidoc/taskpaper.vim"
+ " Bundle "chriskempson/tomorrow-theme"
+Plugin 'ctrlpvim/ctrlP.vim'
+" Plugin 'ivanov/vim-ipython'
+Plugin 'epeli/slimux'
+Plugin 'tpope/vim-markdown'
+Plugin 'chrisbra/Recover.vim'
+
+
+"let Vundle manage Vundle
+" required!
+"
+" The bundles you install will be listed here
+  filetype plugin indent on
+
+ map <F2> :NERDTreeToggle<CR>
+
+" Powerlinesetup
+ set guifont=DejaVu\ Sans\ Mono\ for\ Powerline:h12
+ set laststatus=2
+ set encoding=utf-8
+ let g:Powerline_symbols = 'fancy'
+
+" Show trailing white space as error
+" match ErrorMsg '\s\+$'
+" Remove trailing white space
+nnoremap <leader>rtw :%s/\s\+$//e<CR>
+" Use <leader>l to toggle display of whitespace
+nmap <leader>i :set list!<CR>
+" Starting with no list
+set nolist
+" Andset some nice chars to do it with
+"set listchars=tab:☂⚡,eol:¬,trail:☁
+"set list listchars=tab:162,trail:163
+set listchars=trail:★,tab:☂⚡
+
+" automatically change window's cwd to file's dir
+set autochdir
+
+" I'd prefer spaces to tabs
+set softtabstop=4
+set tabstop=4
+set shiftwidth=4
+set expandtab
+
+" more subtle popup colors
+if has ('gui_running')
+    highlight Pmenu guibg=#cccccc gui=bold
+endif
+
+augroup vimrc_autocmds_python
+   autocmd!
+    " highlight characters past column 120
+   autocmd FileType python highlight Excess ctermbg=DarkGrey guibg=DarkGrey
+   autocmd FileType python match Excess /\%80v.*/
+   autocmd FileType python set nowrap
+   " find main() and copy the block to be pasted in ipython
+   autocmd FileType python nnoremap <leader>m /def main<CR>/^def.*(\\|^class.*(<CR>BBB<C-v>?main()<CR>j$
+augroup END
+
+" Commenting blocks of code.
+autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+autocmd FileType sh,ruby,python  let b:comment_leader = '# '
+autocmd FileType conf,fstab      let b:comment_leader = '# '
+autocmd FileType tex             let b:comment_leader = '% '
+autocmd FileType mail            let b:comment_leader = '> '
+autocmd FileType vim             let b:comment_leader = '" '
+noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
+" auto reload
+augroup reload_vimrc " {
+    autocmd!
+    autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup END " }
+"set number
+set showbreak=↪
+
+" function! NumberToggle()
+"   if(&relativenumber == 1)
+"     set number
+"   elseif
+"     set relativenumber
+"   endif
+" endfunc
+" nnoremap <leader>n :call NumberToggle()<cr>
+" cycles between relative / absolute / no numbering
+hi LineNr ctermfg=grey guifg=grey
+if v:version >= 400
+  function! RelativeNumberToggle()
+    if (&number == 1 && &relativenumber == 1)
+      set nonumber
+      set relativenumber relativenumber?
+    elseif (&number == 0 && &relativenumber == 1)
+      set norelativenumber
+      set number number?
+    elseif (&number == 1 && &relativenumber == 0)
+      set norelativenumber
+      set nonumber number?
+    else
+      set number
+      set relativenumber relativenumber?
+    endif
+  endfunc
+else
+  function! RelativeNumberToggle()
+    if (&relativenumber == 1)
+      set number number?
+    elseif (&number == 1)
+      set nonumber number?
+    else
+      set relativenumber relativenumber?
+    endif
+  endfunc
+  nnoremap <silent> <leader>m :set number!<CR>
+endif
+nnoremap <silent> <leader>m :call RelativeNumberToggle()<CR>
+
+au FocusLost * :set number
+au FocusGained * :set relativenumber
+autocmd InsertEnter * :set number
+autocmd InsertLeave * :set relativenumber
+
+" -- important hotkeys --
+"  * search same word
+"  [{ to go back to {
+"  gd (in C) to go to definition
+"  C-n to auto complete
+" :abbr Lunix Linux
+map <leader>tn :tabnew %<cr>
+" map <leader>th :tabprevious<cr>  # gT
+" map <leader>tl :tabnext<cr>  # gt
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove
+
+" multiple cursor mapping
+" let g:multi_cursor_use_default_mapping=0
+" let g:multi_cursor_next_key='<C-k>'
+" let g:multi_cursor_prev_key='<C-l>'
+" let g:multi_cursor_skip_key='<C-x>'
+" let g:multi_cursor_quit_key='<ESC>'
+" let g:multi_cursor_exit_from_visual_mode=0
+" let g:multi_cursor_exit_from_insert_mode=0
+
+" --- indent guides
+let g:indent_guides_guide_size=1
+
+" ----------Latex-Suitesetup--------------------------------------------
+"  --- re-map some keys
+map <leader>5 <F5>
+map <leader>7 <F7>
+map <leader>9 <F9>
+let g:Tex_Leader=','
+let g:Tex_Leader2='.'
+
+autocmd FileType tex set backspace=start,indent
+syntax on
+set ruler
+" REQUIRED. This makes vim invoke Latex-Suite when you open a tex file.
+filetype plugin on
+
+" IMPORTANT: win32 users will need to have 'shellslash'set so that latex
+" can be called correctly.
+set shellslash
+
+" IMPORTANT: grep will sometimes skip displaying the file name if you
+" search in a singe file. This will confuse Latex-Suite. Set your grep
+" program to always generate a file-name.
+set grepprg=grep\ -nH\ $*
+
+" OPTIONAL: This enables automatic indentation as you type.
+filetype indent on
+
+" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files defaults to
+" 'plaintex' instead of 'tex', which results in vim-latex not being loaded.
+" The following changes the default filetype back to 'tex':
+let g:tex_flavor='latex'
+
+" this is mostly a matter of taste. but LaTeX looks good with just a bit
+" " of indentation.
+set sw=3
+" " TIP: if you write your \label's as \label{fig:something}, then if you
+" " type in \ref{fig: and press <C-n> you will automatically cycle through
+" " all the figure labels. Very useful!
+set iskeyword+=:
+
+let g:Tex_MultipleCompileFormat = 'pdf,aux'
+let g:Tex_TreatMacViewerAsUNIX = 0
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_CompileRule_pdf = 'pdflatex -synctex=1 --interaction=errorstopmode $*'
+let g:Tex_ViewRule_pdf = 'Skim'
+
+" Command-R will write, compile, and forward
+" search--thanks to
+"     "
+"     http://reference-man.blogspot.com/2011/09/fully-integrated-latex-in-macvim.html
+"         " preview, switch back to main window
+map Q :w<cr><leader>ll<leader>ls
+imap <D-r> <ESC><D-r>
+let g:Tex_IgnoreLevel = 5
+let g:Tex_IgnoredWarnings ='
+          \"Underfull\n".
+          \"Overfull\n".
+          \"specifier changed to\n".
+          \"You have requested\n".
+          \"Missing number, treated as zero.\n".
+          \"There were undefined references\n".
+          \"Citation %.%# undefined\n".
+          \"Marginpar on page %.%# moved\n".
+          \"\oval, \circle, or \line size unavailable\n"'
+
+let g:Tex_GotoError = 1
+
+hi LineNr ctermfg=grey guifg=grey
+
+" --- remap scroll up and down
+nnoremap <leader>f z+
+nnoremap <leader>b z^
+let g:vimball_home="~/.vim"
+
+set langmenu=en_US.UTF-8    " sets the language of the menu (gvim)
+" lang English
+
+
+ " ---- easymotion
+ map <Leader><leader> <Plug>(easymotion-prefix)
+ let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+ " Bi-directional find motion
+ " " Jump to anywhere you want with minimal keystrokes, with just one key
+ " binding.
+ " " `s{char}{label}`
+ " nmap s <Plug>(easymotion-s)
+ " " or
+ " " `s{char}{char}{label}`
+ " " Need one more keystroke, but on average, it may be more comfortable.
+ nmap s <Plug>(easymotion-s2)
+ "
+ " " Turn on case sensitive feature
+ let g:EasyMotion_smartcase = 1
+ "
+ " " JK motions: Line motions
+ " map <Leader><leader>w <Plug>(easymotion-w)
+ " map <Leader><leader>b <Plug>(easymotion-b)
+ " map <Leader>j <Plug>(easymotion-j)
+ " map <Leader>k <Plug>(easymotion-k)
+
+ " --- split windows
+ nmap <F3> ^W_^W\|
+ nmap <F4> <C-w>=
+
+ " --- vimwiki
+autocmd FileType wiki,vimwiki set noexpandtab
+autocmd FileType wiki,vimwiki set tabstop=4
+ nnoremap <leader>wa :VimwikiAll2HTML<CR>
+ nmap <leader>` ysiw`
+ "let g:custom_wiki2html=$HOME.'/.vim/bundle/vimwiki/autoload/vimwiki/misaka_md22html.sh'
+ let g:vimwiki_list = [
+            \{'path': '~/vimwiki/text/general',
+            \ 'path_html': '~/vimwiki/html/general',
+            \'syntax': 'default',
+            \'ext': '.wiki',
+            \ 'auto_toc': '1',
+            \ 'index': 'index',
+            \ 'template_path': '~/vimwiki/templates/',
+            \ 'template_default': 'def_template',
+            \ 'template_ext': '.html'},
+            \{'path': '~/vimwiki/text/tech',
+            \ 'ext': '.wiki',
+            \ 'path_html': '~/vimwiki/html/tech',
+            \ 'auto_toc': '1',
+            \ 'template_path': '~/vimwiki/templates/',
+            \ 'template_default': 'def_template',
+            \ 'template_ext': '.html'}
+            \]
+"let g:vimwiki_customwiki2html=$HOME.'/.vim/bundle/vimwiki/autoload/customwiki2html.sh'
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+nmap Z d$o<Esc>p
+nmap <leader>o o<Esc>d0x
+" - map checkbox hot keys
+
+augroup my_vimwiki
+    autocmd FileType wiki,vimwiki vnoremap o <esc>0wi*<space>[<space>]<space><esc>
+    autocmd FileType wiki,vimwiki vmap x <esc><C-space>
+    autocmd FileType wiki,vimwiki vnoremap D <esc>0wdf]
+
+   au BufRead,BufNewFile *.wiki set filetype=vimwiki
+   :autocmd FileType vimwiki map <leader>d :VimwikiMakeDiaryNote
+   :autocmd FileType vimwiki map <leader>dl :VimwikiDiaryGenerateLinks
+   function! ToggleCalendar()
+     execute ":Calendar"
+     if exists("g:calendar_open")
+       if g:calendar_open == 1
+         execute "q"
+         unlet g:calendar_open
+       else
+         g:calendar_open = 1
+       end
+     else
+       let g:calendar_open = 1
+     end
+   endfunction
+   :autocmd FileType vimwiki map <leader>c :call ToggleCalendar() <cr>
+
+    " open-able files within vim (will open in new tab)
+    "{{{ Use Vim to open links with the
+    " 'vlocal:' or 'vfile:' schemes.  E.g.:
+    "   1) [[vfile:///~/Code/PythonProject/abc123.py]], and
+    "   2) [[vlocal:./|Wiki Home]]
+
+ function! VimwikiLinkHandler(link)
+    " Use Vim to open external files with the 'vfile:' scheme.  E.g.:
+    "   1) [[vfile:~/Code/PythonProject/abc123.py]]
+    "   2) [[vfile:./|Wiki Home]]
+    let link = a:link
+    if link =~# '^vfile:' || link =~# '^vlocal:'
+      let link = link[1:]
+    else
+      return 0
+    endif
+    let link_infos = vimwiki#base#resolve_link(link)
+    if link_infos.filename == ''
+      echom 'Vimwiki Error: Unable to resolve link!'
+      return 0
+    else
+      exe 'tabnew ' . fnameescape(link_infos.filename)
+      return 1
+    endif
+  endfunction
+  
+augroup End
+
+
+
+" --- vimoutliner map
+augroup my_vimoutliner
+"     autocmd FileType votl map 1 \1
+"     autocmd FileType votl map 2 \2
+"     autocmd FileType votl map 3 \3
+"     autocmd FileType votl map 4 \4
+"     autocmd FileType votl map 5 \5
+"     autocmd FileType votl map 6 \6
+    autocmd FileType votl vmap o <localleader>c% " add checkbox
+    autocmd FileType votl vmap x <localleader>cx " toggle checkbox
+    autocmd FileType votl vmap D <localleader>cd " delete checkbox
+	function! ConvertToTaskPaper()
+		execute "w"
+		execute '%s/^\t\[X\] \d*% \(.*\)/\t- \1: @done/g'
+		execute '%s/\[X\] \(.*\)/- \1 @done/g'
+		execute '%s/^\t\[_\] \d*% \(.*\)/\t\1:/g'
+		execute '%s/\[_\] \d*% /- /g'
+		execute '%s/\[_\] /- /g'
+        execute "w! %:r.taskpaper"
+		execute "u"
+    endfunction
+    function! LinkForward()
+        let g:fromFile=expand('%:p')
+        let fn= substitute(getline('.'),'^.*\[\[\([^\]]*\)\].*$',"\\1",'g')
+        execute "w"
+        execute "tabnew ".fn
+    endfunction
+    autocmd FileType votl nnoremap <cr> :call LinkForward()<cr>
+    autocmd FileType taskpaper nnoremap <cr> :call LinkForward()<cr>
+augroup End
+
+augroup my_taskpaper
+    autocmd FileType taskpaper colorscheme gruvbox
+    let g:task_paper_hide_done=1
+    nnoremap <leader>ta :v/\(@done\)\\|\(@waitfor\)/p<cr>
+"     nnoremap <leader>tf :call my_taskpaper#move_followup()<cr>
+augroup End
+
+" nmap k gk
+" nmap j gj
+nmap <leader>o o<esc>d0x
+
+nnoremap <leader>cs :vsp<space>~/vimwiki/templates/css_color_v2.css<cr>:vertical<space>resize<space>40<cr>:set<space>nowrap<cr>
+
+" let g:C_Ctrl_j = 'off'
+let g:BASH_Ctrl_j = 'off'
+let g:ZSH_Ctrl_j = 'off'
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+" slimux setup
+map <Leader>s :SlimuxREPLSendLine<CR>
+vmap <Leader>s :SlimuxREPLSendSelection<CR>
+map <Leader>a :SlimuxShellLast<CR>
+map <Leader>k :SlimuxSendKeysLast<CR>
+
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+"-  yankring 
+map <Leader><space> :YRShow <CR>
