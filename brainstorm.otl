@@ -31,3 +31,38 @@ How we collaborate
 	git
 	slack
 TASKS
+	[_] 60% milestones
+		[X] 100% project start
+			@start(2016-04-11-12:00:00)
+		[X] 100% decide on the deliverables
+			@end(2016-04-12-15:00:00)
+		[X] 100% short statement ready
+			@end(2016-04-12-17:00:00)
+		[_] 0% blog
+			@end(2016-04-13-17:00:00)
+		[_] 0% group presentations
+			@end(2016-04-15-15:00:00)
+	[_] 50% WBS
+		@seq
+		@depends(!milestones.project_start)
+		[X] research and brainstorming
+			@effort(6h)
+			2016-04-12 [13:30:19 -- 15:17:19] -> 1.78 h
+			@allocate(team)
+		[X] statement write up
+			@effort(1h)
+			2016-04-12 [15:30:19 -- 16:17:19] -> 0.78 h
+			@allocate(team)
+		[_] % work on the data
+			[_] script to collect data from http://web.mta.info/developers/turnstile.html
+				@effort(1h)
+				@allocate(team)
+			[_] clean data to useful info 1. volume 2. in-out ratio
+				@effort(2h)
+				@allocate(team)
+			[_] make plots 1. heatmap 2. plot bars
+				@effort(2h)
+				@allocate(team)
+		[_] work on presentations
+			@effort(8h)
+			@allocate(team)
