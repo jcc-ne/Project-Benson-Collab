@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import pandas as pd
+from StringIO import StringIO
 
 
 link = 'http://web.mta.info/developers/turnstile.html'
@@ -37,3 +39,22 @@ def getAllLinks(link=link):
     links = alllinkspage.findAll('a')
     abslinks = [mtaweb + l.attrs['href'] for l in links]
     return abslinks
+
+
+def getAllDf(n_start=None, n_end=None):
+    links = getAllLinks()[n_start: n_end]
+    df_all = pd.DataFrame()
+    for l in links:
+        df = get_df_from_MTAlink(l)
+        df_all = df_all.append(df)
+    return df_all
+
+
+def get_df_from_MTAlink(link):
+    r = requests.get(link)
+    if r.status_code != 200:
+        raise Exception('{} webpage not working'.format(link))
+    f = StringIO(r.content)
+    df = pd.read_csv(f)
+    df.columns = [c.strip() for c in df.columns]
+    return df
