@@ -63,6 +63,20 @@ TASKS
 			[_] make plots 1. heatmap 2. plot bars
 				@effort(2h)
 				@allocate(team)
-		[_] work on presentations
-			@effort(8h)
+		[_] % work on presentations
 			@allocate(team)
+			[_] viz
+				@effort(4h)
+				1. heatmap that overlays with household size/ age of building etc.
+				2. find likelihood of commuter, office, others spots
+			presentation
+				1. show results 
+				2. process/models 
+					a. data clean process
+					b. reasoning why we have more in than out/ maps look funky
+						i. reality
+						ii. ternstile broken 
+					c. balance model 1.33 based on assumption
+				3. 
+			[_] write up, practice
+				@effort(2h)
