@@ -42,12 +42,18 @@ def getAllLinks(link=link):
 
 
 def getAllDf(n_start=None, n_end=None):
+    """ get dataframe from the MTA website, if n_start and n_end not given
+    all data on that page will be downloaded
+    """
+    print "getting data from the MTA website..."
     links = getAllLinks()[n_start: n_end]
     df_all = pd.DataFrame()
     for l in links:
+        print "working on {}...".format(l)
         df = get_df_from_MTAlink(l)
         df_all = df_all.append(df)
-    return df_all
+    print 'ok'
+    return df_all, links
 
 
 def get_df_from_MTAlink(link):
